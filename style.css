@@ -1641,3 +1641,19 @@ html, body {
     line-height: normal !important; 
     vertical-align: middle !important;
 }
+
+
+/* --- MOBILE RESPONSIVENESS FIXES --- */
+@media (max-width: 767px) {
+    /* Shrinks the giant hero text on phones */
+    .hero h1 {
+        font-size: 2.5rem !important; 
+        line-height: 1.1 !important;
+        word-wrap: break-word;
+    }
+    
+    /* Prevents the annoying horizontal screen wobble */
+    html, body {
+        overflow-x: hidden !important;
+    }
+}
