@@ -1645,15 +1645,28 @@ html, body {
 
 /* --- MOBILE RESPONSIVENESS FIXES --- */
 @media (max-width: 767px) {
-    /* Shrinks the giant hero text on phones */
+    /* Fluid typography: Dynamically scales to fit ANY phone screen */
     .hero h1 {
-        font-size: 2.5rem !important; 
-        line-height: 1.1 !important;
-        word-wrap: break-word;
+        font-size: clamp(1.8rem, 8vw, 2.2rem) !important; 
+        line-height: 1.2 !important;
+        padding-right: 15px; 
     }
     
-    /* Prevents the annoying horizontal screen wobble */
+    /* Stacks the hero buttons neatly on top of each other */
+    .hero-btns {
+        display: flex !important;
+        flex-direction: column;
+        gap: 15px; /* Adds perfect breathing room between them */
+    }
+    
+    .hero-btns .btn {
+        width: 100%; /* Makes the buttons full-width for easy thumb-tapping */
+        margin: 0 !important;
+    }
+    
+    /* Double-lock to prevent horizontal wobbling */
     html, body {
         overflow-x: hidden !important;
+        width: 100%;
     }
 }
