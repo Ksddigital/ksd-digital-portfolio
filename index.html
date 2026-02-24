@@ -658,6 +658,60 @@
         </div>
     </section>
 
+<section id="auditor" class="auditor-section section-padding">
+    <div class="container">
+        <div class="row text-center fade-on-scroll">
+            <div class="col-md-8 col-md-offset-2">
+                <span class="project-category">Free Diagnostic Tool</span>
+                <h2 class="section-title">Test Your Site's Unfair Advantage</h2>
+                <p class="section-subtitle">Enter your URL below to get a real-time Google PageSpeed performance grade and discover exactly what is holding your visibility back.</p>
+            </div>
+        </div>
+
+        <div class="row mt-4 fade-on-scroll">
+            <div class="col-md-8 col-md-offset-2">
+                <form id="performance-form" class="auditor-form">
+                    <div class="input-group">
+                        <input type="url" id="site-url" class="form-control" placeholder="https://www.yourwebsite.com" required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary scanner-btn" type="submit" id="audit-btn">
+                                Scan Website <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="audit-results" class="row mt-5" style="display: none;">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="audit-card text-center">
+                    <h3 id="score-text">Performance Score: <span class="score-number" id="score-display">--/100</span></h3>
+                    
+                    <div class="locked-report">
+                        <div class="blur-overlay">
+                            <h4><i class="fa-solid fa-lock"></i> Unlock the Full Diagnostic Report</h4>
+                            <p>We found critical issues affecting your SEO and load time. Enter your email to reveal the exact fixes.</p>
+                            <form id="unlock-form">
+                                <input type="email" id="lead-email" class="form-control" placeholder="Enter your best email" required>
+                                <button type="submit" class="btn btn-secondary mt-3 w-100">Reveal My Report</button>
+                            </form>
+                        </div>
+                        
+                        <div class="fake-metrics text-left">
+                            <p><b>First Contentful Paint:</b> <span class="text-danger">██████ ms (Critical)</span></p>
+                            <p><b>Time to Interactive:</b> <span class="text-warning">██████ ms (Warning)</span></p>
+                            <p><b>Cumulative Layout Shift:</b> <span class="text-danger">██████ (Failed)</span></p>
+                            <p><b>SEO Optimization:</b> <span>██████ Missing Tags</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
     <section id="contact" class="site-section section-contact">
         <div class="container">
             <div class="row">

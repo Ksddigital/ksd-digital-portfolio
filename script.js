@@ -328,5 +328,104 @@ $('#auditForm').on('submit', function(e) {
         }
     });
 });
+// ==============================================
+// WEBSITE PERFORMANCE AUDITOR ENGINE
+// ==============================================
+
+// 🚨 PASTE YOUR GOOGLE API KEY BETWEEN THE QUOTES BELOW 🚨
+const GOOGLE_API_KEY = 'AIzaSyDMZdLFxIBwkXTb4qFW5qjjkXQ1w5cira0'; 
+
+document.getElementById('performance-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const urlInput = document.getElementById('site-url').value;
+    const scanBtn = document.getElementById('audit-btn');
+    const resultsCard = document.getElementById('audit-results');
+    const scoreDisplay = document.getElementById('score-display');
+    
+    // 1. Trigger the Loading State
+    scanBtn.innerHTML = 'Scanning... <i class="fa-solid fa-spinner fa-spin"></i>';
+    scanBtn.disabled = true;
+
+    try {
+        // 2. Ping Google's Servers (We use 'mobile' strategy as it is the harshest/most accurate metric)
+        const response = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(urlInput)}&key=${GOOGLE_API_KEY}&strategy=mobile`);
+        const data = await response.json();
+
+        // 3. Extract the Score (Google gives a decimal like 0.45, so we multiply by 100)
+        const score = data.lighthouseResult.categories.performance.score * 100;
+
+        // 4. Update the UI with the real score
+        scoreDisplay.innerText = `${Math.round(score)}/100`;
+        
+        // Color-code the score psychology (Red = Bad, Orange = Okay, Green = Great)
+        if (score >= 90) {
+            scoreDisplay.style.color = '#00cc66'; 
+        } else if (score >= 50) {
+            scoreDisplay.style.color = '#ff9900'; 
+        } else {
+            scoreDisplay.style.color = '#ff3333'; 
+        }
+
+        // 5. Reveal the results card (with the blurred trap active)
+        resultsCard.style.display = 'block';
+
+        // Smooth scroll down to the results
+        resultsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (error) {
+        alert('Error scanning website. Please ensure you entered a valid URL (including https://).');
+        console.error(error);
+    } finally {
+        // Reset the button back to normal
+        scanBtn.innerHTML = 'Scan Website <i class="fa-solid fa-magnifying-glass"></i>';
+        scanBtn.disabled = false;
+    }
+});
+
+
+// ==============================================
+// THE EMAIL TRAP (FORMSPREE INTEGRATION)
+// ==============================================
+document.getElementById('unlock-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const emailInput = document.getElementById('lead-email').value;
+    const urlInput = document.getElementById('site-url').value;
+    const unlockBtn = this.querySelector('button');
+    
+    unlockBtn.innerHTML = 'Unlocking...';
+    unlockBtn.disabled = true;
+
+    // 🚨 PASTE YOUR FORMSPREE ID BELOW (The same one you use for your Contact Form) 🚨
+    fetch('https://formspree.io/f/mnjbladd', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: emailInput,
+            website_scanned: urlInput,
+            message: 'New Website Audit Lead! They want their full performance report.'
+        })
+    }).then(response => {
+        if (response.ok) {
+            // Remove the Blur and Show Success Message!
+            document.querySelector('.blur-overlay').innerHTML = `
+                <h4 style="color: #42867b;"><i class="fa-solid fa-check-circle"></i> Audit Captured</h4>
+                <p>Your preliminary diagnostic is complete. Our growth team is compiling your customized strategy and will email the PDF to <b>${emailInput}</b> shortly.</p>
+            `;
+            document.querySelector('.fake-metrics').style.filter = 'none';
+            document.querySelector('.fake-metrics').style.opacity = '1';
+        } else {
+            alert('Oops! There was a problem submitting your email.');
+            unlockBtn.innerHTML = 'Reveal My Report';
+            unlockBtn.disabled = false;
+        }
+    }).catch(error => {
+        alert('Oops! There was a network error.');
+    });
+});
 
 });
