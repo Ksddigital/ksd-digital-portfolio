@@ -1614,6 +1614,28 @@ html, body {
     }
 }
 
+
+/* --- MOBILE RESPONSIVENESS FOR AUDITOR --- */
+@media (max-width: 768px) {
+    .audit-card {
+        padding: 20px 15px;
+    }
+    
+    .score-number {
+        font-size: 2.8rem; /* Scales the giant score down slightly */
+    }
+
+    .locked-report {
+        padding: 20px 10px;
+        min-height: 420px; /* Gives the text a little more vertical breathing room */
+    }
+
+    .blur-overlay {
+        width: 95%; /* Lets the box stretch wider on small screens */
+        padding: 25px 15px; /* Removes the heavy desktop padding */
+    }
+}
+
 /* --- TABLET & MOBILE RESPONSIVE FIXES --- */
 
 /* 1. iPad Pro & Laptops (Max 1024px) - Kills the giant black void */
