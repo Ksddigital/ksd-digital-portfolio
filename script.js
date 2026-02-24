@@ -338,7 +338,14 @@ const GOOGLE_API_KEY = 'AIzaSyDMZdLFxIBwkXTb4qFW5qjjkXQ1w5cira0';
 document.getElementById('performance-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const urlInput = document.getElementById('site-url').value;
+    // Grab what the user typed and remove extra spaces
+    let urlInput = document.getElementById('site-url').value.trim();
+    
+    // 🔥 THE MOBILE FIX: Auto-add https:// if they forgot it
+    if (!urlInput.startsWith('http://') && !urlInput.startsWith('https://')) {
+        urlInput = 'https://' + urlInput;
+    }
+
     const scanBtn = document.getElementById('audit-btn');
     const resultsCard = document.getElementById('audit-results');
     const scoreDisplay = document.getElementById('score-display');
@@ -348,17 +355,17 @@ document.getElementById('performance-form').addEventListener('submit', async fun
     scanBtn.disabled = true;
 
     try {
-        // 2. Ping Google's Servers (We use 'mobile' strategy as it is the harshest/most accurate metric)
+        // 2. Ping Google's Servers with the corrected URL
         const response = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(urlInput)}&key=${GOOGLE_API_KEY}&strategy=mobile`);
         const data = await response.json();
 
-        // 3. Extract the Score (Google gives a decimal like 0.45, so we multiply by 100)
+        // 3. Extract the Score
         const score = data.lighthouseResult.categories.performance.score * 100;
 
         // 4. Update the UI with the real score
         scoreDisplay.innerText = `${Math.round(score)}/100`;
         
-        // Color-code the score psychology (Red = Bad, Orange = Okay, Green = Great)
+        // Color-code the score psychology
         if (score >= 90) {
             scoreDisplay.style.color = '#00cc66'; 
         } else if (score >= 50) {
@@ -367,17 +374,14 @@ document.getElementById('performance-form').addEventListener('submit', async fun
             scoreDisplay.style.color = '#ff3333'; 
         }
 
-        // 5. Reveal the results card (with the blurred trap active)
+        // 5. Reveal the results card
         resultsCard.style.display = 'block';
-
-        // Smooth scroll down to the results
         resultsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     } catch (error) {
-        alert('Error scanning website. Please ensure you entered a valid URL (including https://).');
+        alert('Error scanning website. Please check the URL and try again.');
         console.error(error);
     } finally {
-        // Reset the button back to normal
         scanBtn.innerHTML = 'Scan Website <i class="fa-solid fa-magnifying-glass"></i>';
         scanBtn.disabled = false;
     }
@@ -397,7 +401,7 @@ document.getElementById('unlock-form').addEventListener('submit', function(e) {
     unlockBtn.innerHTML = 'Unlocking...';
     unlockBtn.disabled = true;
 
-    // 🚨 PASTE YOUR FORMSPREE ID BELOW (The same one you use for your Contact Form) 🚨
+    // 🚨 PASTE YOUR NEW AUDITOR FORMSPREE ID BELOW 🚨
     fetch('https://formspree.io/f/mnjbladd', {
         method: 'POST',
         headers: {
