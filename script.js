@@ -358,7 +358,7 @@ $(function () {
   // ==============================================
 
   // 🚨 PASTE YOUR GOOGLE API KEY BETWEEN THE QUOTES BELOW 🚨
-  const GOOGLE_API_KEY = "AIzaSyDMZdLFxIBwkXTb4qFW5qjjkXQ1w5cira0";
+  const GOOGLE_API_KEY = "PASTE_YOUR_RESTRICTED_API_KEY_HERE";
 
   document
     .getElementById("performance-form")
