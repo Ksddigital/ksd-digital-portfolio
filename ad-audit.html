@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ad Spend Audit | KSD Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inconsolata:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1302980091219849');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1302980091219849&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NFYQLTZY5J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NFYQLTZY5J');
+</script>
+
+    <style>
+        :root {
+            --bg: #060708;
+            --card: #0c0e10;
+            --card2: #111416;
+            --accent: #42867b;
+            --accent-glow: rgba(66, 134, 123, 0.18);
+            --accent-dim: rgba(66, 134, 123, 0.35);
+            --text: #e2e4e6;
+            --muted: #7a7f86;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(66, 134, 123, 0.3);
+            --white: #ffffff;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ─── NOISE & GRID OVERLAYS ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(66, 134, 123, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(66, 134, 123, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 18px 0;
+            background: rgba(6, 7, 8, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-brand img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-tag {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            padding: 4px 12px;
+            border-radius: 2px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* ─── HERO & FORM ─── */
+        .hero {
+            padding: 140px 0 80px;
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 700px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(66, 134, 123, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.78rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+            line-height: 1.05;
+            color: var(--white);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .accent-line {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        /* INLINE OPTIN BOX */
+        .optin-box {
+            background: var(--card);
+            border: 1px solid var(--border-accent);
+            border-radius: 10px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.4s ease;
+        }
+
+        .optin-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .field label {
+            display: block;
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--white);
+            padding: 14px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            border-color: var(--accent);
+            background: rgba(66, 134, 123, 0.05);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #4f9e91;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 14px 24px;
+            border: 1px solid var(--border-accent);
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-glow);
+            border-color: var(--accent);
+            color: var(--white);
+        }
+
+        /* POST-SUBMIT UPSELL STATE */
+        .upsell-state {
+            display: none;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .upsell-header {
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+        }
+
+        .upsell-header h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .upsell-header p {
+            color: var(--accent);
+            font-size: 0.95rem;
+        }
+
+        .upsell-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .upsell-card {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .upsell-card h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+
+        .upsell-card p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* ─── BOOK VISUAL ─── */
+        .book-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-placeholder {
+            width: 100%;
+            max-width: 320px;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .book-placeholder img {
+            box-shadow: -12px 8px 40px rgba(0, 0, 0, 0.7), 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(66, 134, 123, 0.15);
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(-1deg);
+            }
+        }
+
+        /* ─── PROOF BAR ─── */
+        .proof-bar {
+            border-top: 1px solid var(--border-accent);
+            border-bottom: 1px solid var(--border-accent);
+            background: rgba(66, 134, 123, 0.04);
+            padding: 48px 0;
+            margin: 0;
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .proof-item strong {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2.4rem;
+            color: var(--accent);
+            display: block;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .proof-item span {
+            font-family: 'Inconsolata', monospace;
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .about-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-card {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* RESPONSIVE */
+        /* ─── MOBILE RESPONSIVENESS (Main Site Standard) ─── */
+        @media (max-width: 991px) {
+            .hero {
+                padding: 100px 0 50px;
+                text-align: center;
+                min-height: auto;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.8rem, 8vw, 2.6rem) !important;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 0 10px;
+                text-align: center;
+            }
+
+            .hero-sub {
+                margin: 0 auto 30px;
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+
+            .hero-eyebrow {
+                justify-content: center;
+            }
+
+            .book-wrap {
+                order: -1;
+                margin-bottom: 20px;
+            }
+
+            .book-placeholder {
+                max-width: 240px;
+                margin: 0 auto;
+            }
+
+            .optin-box {
+                padding: 24px;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .proof-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .proof-item strong {
+                font-size: 2.2rem;
+            }
+
+            .about-section {
+                padding: 60px 0;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+                text-align: center;
+            }
+
+            .about-grid .section-label {
+                justify-content: center;
+            }
+
+            .about-visual {
+                max-width: 360px;
+                margin: 30px auto 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding-top: 90px;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.5rem, 8vw, 2.1rem) !important;
+                line-height: 1.1 !important;
+                padding: 0 5px !important;
+                word-wrap: break-word;
+            }
+
+            .container {
+                padding: 0 18px;
+            }
+
+            .btn-primary, .btn-outline {
+                width: 100%;
+                padding: 16px 18px;
+                font-size: 0.8rem;
+            }
+
+            .nav-tag {
+                display: none;
+            }
+
+            .upsell-header h3 {
+                font-size: 1.25rem;
+            }
+
+            .proof-bar {
+                padding: 40px 0;
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .delay-3 {
+            animation-delay: 0.35s;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="container">
+            <div class="nav-inner">
+                <a class="nav-brand" href="index.html">
+                    <img src="Assets/ksd.png" alt="KSD Digital" style="filter: brightness(0) invert(1);">
+                </a>
+                <span class="nav-tag">Free Resource Hub</span>
+            </div>
+        </div>
+    </nav>
+
+<header class="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+        <div class="hero-grid">
+            <div>
+                <p class="hero-eyebrow animate delay-1">The Ad Spend Audit</p>
+                <h1 class="animate delay-2">
+                    Your Funnel Isn't Broken.
+                    <span class="accent-line">It's Just Leaking.</span>
+                </h1>
+                <p class="hero-sub animate delay-3">Most Nigerian founders treating Meta Ads like a slot machine aren't losing because of the algorithm. They're losing because of five leaks they've never been shown. This is the diagnostic. It's free.</p>
+
+                <div id="capture-container" class="animate delay-3">
+                    <!-- 
+                        LEAD CAPTURE FORM — Hidden Iframe Relay Pattern
+                        ================================================
+                        The form POSTs to MailerLite via a hidden iframe (target="ml_relay").
+                        This bypasses CORS entirely — it's a native browser form submission.
+                        The iframe's onload fires AFTER MailerLite receives the data,
+                        which is when we safely trigger the PDF download and UI switch.
+                    -->
+                    <iframe name="ml_relay" id="ml_relay" style="display:none;" onload="onMailerLiteDelivered()"></iframe>
+
+                    <form action="https://assets.mailerlite.com/jsonp/2333359/forms/187024756529170280/subscribe" 
+                          method="POST" 
+                          id="ksd-audit-form" 
+                          target="ml_relay"
+                          onsubmit="return handleFormSubmit(event)">
+
+                        <div id="step-squeeze" class="optin-box">
+                            <div class="field">
+                                <label>Your Name</label>
+                                <input type="text" id="lead-name" name="fields[name]" placeholder="e.g. Chidi Okafor" required>
+                            </div>
+                            <div class="field">
+                                <label>Business URL or Industry</label>
+                                <input type="text" id="lead-biz" name="fields[company]" placeholder="e.g. Solar Energy / ksd.site" required>
+                            </div>
+                            <div class="field">
+                                <label>Best Email Address</label>
+                                <input type="email" id="lead-email" name="fields[email]" placeholder="Where should I send the updates?" required>
+                            </div>
+
+                            <!-- Hidden fields required by MailerLite embedded forms -->
+                            <input type="hidden" name="ml-submit" value="1">
+                            <input type="hidden" name="anticsrf" value="true">
+
+                            <button type="submit" class="btn-primary" id="submit-btn">Download The Audit Free</button>
+                            <p style="font-size: 0.75rem; color: var(--muted); text-align: center; margin-top: 16px; font-family: 'Inconsolata', monospace;">NO SPAM. JUST HIGH-SIGNAL STRATEGY.</p>
+                            <p style="font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 8px; font-family: 'Inconsolata', monospace;">JOINED BY 50+ MARKETERS THIS MONTH</p>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="step-upsell" class="upsell-state" style="display: none;">
+                    <div class="upsell-header">
+                        <h3><i class="fa-solid fa-circle-check" style="color: var(--accent); margin-right: 8px;"></i> Success!</h3>
+                        <p>Your PDF is downloading now. Want to fix your ads faster?</p>
+                    </div>
+
+                    <div class="upsell-card" style="border-color: var(--accent); background: linear-gradient(145deg, #0c0e10, #0f1a19);">
+                        <div>
+                            <p style="font-family: 'Inconsolata', monospace; font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">Next Step</p>
+                            <h4>1:1 Business Audit</h4>
+                            <p>Send me a message. Tell me what's broken, and we will map out the exact fix for your ad account.</p>
+                        </div>
+                        <a href="https://wa.me/2347063172724?text=Hey%20Kosy%20%E2%80%94%20I%20just%20downloaded%20the%20Ad%20Spend%20Audit.%20Can%20you%20help%20me%20fix%20my%20ads." target="_blank" class="btn-primary" style="padding: 12px; font-size: 0.75rem; background: #25D366; color: #fff; margin-top: 20px;">
+                            <i class="fa-brands fa-whatsapp" style="margin-right: 6px; font-size: 1rem; vertical-align: middle;"></i> Message Me on WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="book-wrap animate delay-2">
+                <div class="book-placeholder">
+                    <img src="Assets/Ad audit/THE AD SPEND AUDIT.png" alt="The Ad Spend Audit Book Cover">
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div class="proof-bar">
+        <div class="container">
+            <div class="proof-grid">
+                <div class="proof-item">
+                    <strong>15+</strong>
+                    <span>Brands Served</span>
+                </div>
+                <div class="proof-item">
+                    <strong>500+</strong>
+                    <span>Leads in 30 Days</span>
+                </div>
+                <div class="proof-item">
+                    <strong>88%</strong>
+                    <span>Avg. CPL Reduction</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <div>
+                    <p class="section-label"
+                        style="font-family: 'Inconsolata', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+                        <span style="display: block; width: 24px; height: 1px; background: var(--accent);"></span>
+                        The Engineer Behind It
+                    </p>
+                    <h2 class="section-title"
+                        style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white); margin-bottom: 24px; line-height: 1.15;">
+                        I don't run ads.<br>I build systems.</h2>
+                    <p style="color: var(--muted); line-height: 1.8; margin-bottom: 15px; font-size: 0.95rem;">
+                        Most marketers start with aesthetics. I started with heavy machinery. With a background in
+                        Engineering, my early career wasn't spent just picking hex codes, it was spent on the factory
+                        floor supervising the remanufacturing of luxury buses.
+                    </p>
+                    <p style="color: var(--muted); line-height: 1.8; margin-bottom: 15px; font-size: 0.95rem;">
+                        Over the last 3 years I've built content systems, designed brand identities, and developed
+                        marketing strategies for 15+ brands. I don't guess at audiences or boost posts and hope. I build
+                        conversion architectures with measurable inputs and predictable outputs.
+                    </p>
+                    <p style="color: var(--white); font-weight: 500; line-height: 1.8; font-size: 0.95rem;">
+                        We don't just make you look good, we make you money.
+                    </p>
+                </div>
+                <div class="about-visual">
+                    <div class="about-card">
+
+                        <div
+                            style="background: #000; display: flex; justify-content: center; align-items: flex-end; padding-top: 20px; border-bottom: 1px solid var(--border);">
+                            <img src="Assets/Ad audit/founder.jpg" alt="Kosy Mbanugo"
+                                style="width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto; filter: contrast(1.1) brightness(0.9);">
+                        </div>
+
+                        <div style="padding: 32px;">
+                            <h4
+                                style="font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white); margin-bottom: 4px; font-size: 1.2rem;">
+                                Kosisochukwu Mbanugo</h4>
+                            <p class="role"
+                                style="font-family: 'Inconsolata', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px;">
+                                Founder, KSD Digital · The Marketing Alchemist</p>
+                            <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.7;">I combine engineering precision with marketing strategy to build systems that turn ad spend into predictable revenue, not vanity metrics.</p>
+                            <div class="about-tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;">
+                                <span class="tag"
+                                    style="font-family: 'Inconsolata', monospace; font-size: 0.68rem; color: var(--accent); border: 1px solid var(--border-accent); padding: 4px 10px; border-radius: 2px;">Meta
+                                    Ads</span>
+                                <span class="tag"
+                                    style="font-family: 'Inconsolata', monospace; font-size: 0.68rem; color: var(--accent); border: 1px solid var(--border-accent); padding: 4px 10px; border-radius: 2px;">Funnel
+                                    Architecture</span>
+                                <span class="tag"
+                                    style="font-family: 'Inconsolata', monospace; font-size: 0.68rem; color: var(--accent); border: 1px solid var(--border-accent); padding: 4px 10px; border-radius: 2px;">Growth
+                                    Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer
+        style="border-top: 1px solid var(--border); padding: 40px 0; text-align: center; position: relative; z-index: 1;">
+        <div class="container">
+            <p
+                style="font-family: 'Inconsolata', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 0.05em;">
+                &copy; 2026 KSD Digital &mdash; Engineered for Impact &mdash; <a href="https://ksddigital.site"
+                    target="_blank" style="color: var(--accent); text-decoration: none;">ksddigital.site</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * BULLETPROOF LEAD CAPTURE — Hidden Iframe Relay Pattern
+         * ========================================================
+         * Phase 1 — handleFormSubmit():
+         *   Validates input, marks the button as loading, then returns TRUE
+         *   so the browser natively POSTs the form data into the hidden iframe.
+         *   No fetch(), no CORS, no race condition.
+         *
+         * Phase 2 — onMailerLiteDelivered():
+         *   Called by the iframe's onload event. This fires ONLY after the
+         *   MailerLite server has responded — meaning the lead is confirmed
+         *   received before we touch the DOM or trigger the download.
+         *
+         * Guard flag — formWasSubmitted:
+         *   The iframe fires onload once on page init (blank src). The flag
+         *   ensures our callback only runs after a real form submission.
+         */
+
+        let formWasSubmitted = false;
+
+        function handleFormSubmit(e) {
+            const name  = document.getElementById('lead-name').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const btn   = document.getElementById('submit-btn');
+
+            // --- Validation ---
+            if (name.length <= 2) {
+                alert('Please enter your real name.');
+                return false;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            // --- Phase 1: Lock the button so it can't be double-submitted ---
+            btn.textContent = 'Sending\u2026';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            // 🔥 FIRE THE META PIXEL LEAD EVENT 🔥
+            if (typeof fbq === 'function') {
+                fbq('track', 'Lead');
+            }
+
+
+            // 📈 FIRE THE GA4 LEAD EVENT
+    if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+            'event_category': 'engagement',
+            'event_label': 'Ad_Audit_Download'
+        });
+    }
+            // Set the guard flag — now the iframe onload knows this is real
+            formWasSubmitted = true;
+
+            // Return TRUE → browser submits the form into the hidden iframe natively
+            return true;
+        }
+
+        function onMailerLiteDelivered() {
+            // Guard: ignore the blank onload that fires on page init
+            if (!formWasSubmitted) return;
+
+            // Prevent double-firing if something weird happens
+            formWasSubmitted = false;
+
+            // --- Phase 2a: Trigger the PDF download ---
+            const link = document.createElement('a');
+            link.href = 'Assets/Ad audit/AD-SPEND-AUDIT.pdf';
+            link.download = 'AD-SPEND-AUDIT.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // --- Phase 2b: Swap the UI to the success/upsell state ---
+            // Small 400ms delay so the download dialog doesn't compete with the DOM repaint
+            setTimeout(function() {
+                var squeeze = document.getElementById('step-squeeze');
+                var upsell  = document.getElementById('step-upsell');
+
+                if (squeeze) squeeze.style.display = 'none';
+                if (upsell) {
+                    upsell.style.display = 'block';
+                    upsell.style.animation = 'fadeUp 0.6s ease forwards';
+                }
+            }, 400);
+        }
+    </script>
+</body>
+</html>
