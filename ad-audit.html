@@ -631,6 +631,97 @@ src="https://www.facebook.com/tr?id=1302980091219849&ev=PageView&noscript=1"
 <body>
     <div class="grid-bg"></div>
 
+    <script>
+        /**
+         * BULLETPROOF LEAD CAPTURE — Hidden Iframe Relay Pattern
+         * ========================================================
+         * Phase 1 — handleFormSubmit():
+         *   Validates input, marks the button as loading, then returns TRUE
+         *   so the browser natively POSTs the form data into the hidden iframe.
+         *   No fetch(), no CORS, no race condition.
+         *
+         * Phase 2 — onMailerLiteDelivered():
+         *   Called by the iframe's onload event. This fires ONLY after the
+         *   MailerLite server has responded — meaning the lead is confirmed
+         *   received before we touch the DOM or trigger the download.
+         *
+         * Guard flag — formWasSubmitted:
+         *   The iframe fires onload once on page init (blank src). The flag
+         *   ensures our callback only runs after a real form submission.
+         */
+
+        let formWasSubmitted = false;
+
+        function handleFormSubmit(e) {
+            const name  = document.getElementById('lead-name').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const btn   = document.getElementById('submit-btn');
+
+            // --- Validation ---
+            if (name.length <= 2) {
+                alert('Please enter your real name.');
+                return false;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+
+            // --- Phase 1: Lock the button so it can't be double-submitted ---
+            btn.textContent = 'Sending\u2026';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            // 🔥 FIRE THE META PIXEL LEAD EVENT 🔥
+            if (typeof fbq === 'function') {
+                fbq('track', 'Lead');
+            }
+
+
+            // 📈 FIRE THE GA4 LEAD EVENT
+    if (typeof gtag === 'function') {
+        gtag('event', 'generate_lead', {
+            'event_category': 'engagement',
+            'event_label': 'Ad_Audit_Download'
+        });
+    }
+            // Set the guard flag — now the iframe onload knows this is real
+            formWasSubmitted = true;
+
+            // Return TRUE → browser submits the form into the hidden iframe natively
+            return true;
+        }
+
+        function onMailerLiteDelivered() {
+            // Guard: ignore the blank onload that fires on page init
+            if (!formWasSubmitted) return;
+
+            // Prevent double-firing if something weird happens
+            formWasSubmitted = false;
+
+            // --- Phase 2a: Trigger the PDF download ---
+            const link = document.createElement('a');
+            link.href = 'Assets/Ad audit/AD-SPEND-AUDIT.pdf';
+            link.download = 'AD-SPEND-AUDIT.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // --- Phase 2b: Swap the UI to the success/upsell state ---
+            // Small 400ms delay so the download dialog doesn't compete with the DOM repaint
+            setTimeout(function() {
+                var squeeze = document.getElementById('step-squeeze');
+                var upsell  = document.getElementById('step-upsell');
+
+                if (squeeze) squeeze.style.display = 'none';
+                if (upsell) {
+                    upsell.style.display = 'block';
+                    upsell.style.animation = 'fadeUp 0.6s ease forwards';
+                }
+            }, 400);
+        }
+    </script>
+
     <nav>
         <div class="container">
             <div class="nav-inner">
@@ -815,95 +906,6 @@ src="https://www.facebook.com/tr?id=1302980091219849&ev=PageView&noscript=1"
         </div>
     </footer>
 
-    <script>
-        /**
-         * BULLETPROOF LEAD CAPTURE — Hidden Iframe Relay Pattern
-         * ========================================================
-         * Phase 1 — handleFormSubmit():
-         *   Validates input, marks the button as loading, then returns TRUE
-         *   so the browser natively POSTs the form data into the hidden iframe.
-         *   No fetch(), no CORS, no race condition.
-         *
-         * Phase 2 — onMailerLiteDelivered():
-         *   Called by the iframe's onload event. This fires ONLY after the
-         *   MailerLite server has responded — meaning the lead is confirmed
-         *   received before we touch the DOM or trigger the download.
-         *
-         * Guard flag — formWasSubmitted:
-         *   The iframe fires onload once on page init (blank src). The flag
-         *   ensures our callback only runs after a real form submission.
-         */
 
-        let formWasSubmitted = false;
-
-        function handleFormSubmit(e) {
-            const name  = document.getElementById('lead-name').value.trim();
-            const email = document.getElementById('lead-email').value.trim();
-            const btn   = document.getElementById('submit-btn');
-
-            // --- Validation ---
-            if (name.length <= 2) {
-                alert('Please enter your real name.');
-                return false;
-            }
-            if (!email.includes('@') || !email.includes('.')) {
-                alert('Please enter a valid email address.');
-                return false;
-            }
-
-            // --- Phase 1: Lock the button so it can't be double-submitted ---
-            btn.textContent = 'Sending\u2026';
-            btn.disabled = true;
-            btn.style.opacity = '0.7';
-
-            // 🔥 FIRE THE META PIXEL LEAD EVENT 🔥
-            if (typeof fbq === 'function') {
-                fbq('track', 'Lead');
-            }
-
-
-            // 📈 FIRE THE GA4 LEAD EVENT
-    if (typeof gtag === 'function') {
-        gtag('event', 'generate_lead', {
-            'event_category': 'engagement',
-            'event_label': 'Ad_Audit_Download'
-        });
-    }
-            // Set the guard flag — now the iframe onload knows this is real
-            formWasSubmitted = true;
-
-            // Return TRUE → browser submits the form into the hidden iframe natively
-            return true;
-        }
-
-        function onMailerLiteDelivered() {
-            // Guard: ignore the blank onload that fires on page init
-            if (!formWasSubmitted) return;
-
-            // Prevent double-firing if something weird happens
-            formWasSubmitted = false;
-
-            // --- Phase 2a: Trigger the PDF download ---
-            const link = document.createElement('a');
-            link.href = 'Assets/Ad audit/AD-SPEND-AUDIT.pdf';
-            link.download = 'AD-SPEND-AUDIT.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // --- Phase 2b: Swap the UI to the success/upsell state ---
-            // Small 400ms delay so the download dialog doesn't compete with the DOM repaint
-            setTimeout(function() {
-                var squeeze = document.getElementById('step-squeeze');
-                var upsell  = document.getElementById('step-upsell');
-
-                if (squeeze) squeeze.style.display = 'none';
-                if (upsell) {
-                    upsell.style.display = 'block';
-                    upsell.style.animation = 'fadeUp 0.6s ease forwards';
-                }
-            }, 400);
-        }
-    </script>
 </body>
 </html>
