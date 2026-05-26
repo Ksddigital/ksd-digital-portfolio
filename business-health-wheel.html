@@ -361,7 +361,7 @@ function drawWheel() {
   for (let i = 10; i >= 1; i--) {
     ctx.beginPath();
     ctx.arc(cx, cy, maxR * (i / 10), 0, Math.PI * 2);
-    ctx.strokeStyle = i % 2 === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)';
+    ctx.strokeStyle = i % 2 === 0 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
     ctx.lineWidth = 1;
     ctx.stroke();
   }
@@ -372,7 +372,7 @@ function drawWheel() {
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.lineTo(cx + Math.cos(angle) * maxR, cy + Math.sin(angle) * maxR);
-    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
     ctx.lineWidth = 1;
     ctx.stroke();
   }
@@ -387,10 +387,10 @@ function drawWheel() {
     i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   }
   ctx.closePath();
-  ctx.fillStyle = 'rgba(66,134,123,0.25)';
+  ctx.fillStyle = 'rgba(90, 179, 165, 0.45)';
   ctx.fill();
-  ctx.strokeStyle = '#42867b';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#5ab3a5';
+  ctx.lineWidth = 3;
   ctx.stroke();
  
   // Dots at each score point
@@ -400,8 +400,8 @@ function drawWheel() {
     const x = cx + Math.cos(angle) * r;
     const y = cy + Math.sin(angle) * r;
     ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#5ab3a5';
+    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.fillStyle = '#1de9b6';
     ctx.fill();
   }
  
@@ -410,7 +410,7 @@ function drawWheel() {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.font = `700 ${Math.max(W * 0.022, 10)}px Montserrat, sans-serif`;
-  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
  
   for (let i = 0; i < n; i++) {
     const angle = offset + slice * i;
@@ -430,8 +430,8 @@ function drawWheel() {
  
   // Center dot
   ctx.beginPath();
-  ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-  ctx.fillStyle = '#42867b';
+  ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#5ab3a5';
   ctx.fill();
 }
  
