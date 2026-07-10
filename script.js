@@ -151,50 +151,12 @@ $(function () {
   // Initialize on Page Load
   resetGallery();
 
-  // 2. // --- UPDATED "SEE MORE" LOGIC (The Cap & Redirect) ---
-
-  // Define your limit
-  var maxItemsOnHome = 12; // Cap it at 12 or 16 images
-  var behanceLink = "https://www.behance.net/KSDDIGITAL"; // PUT YOUR LINK HERE
+  // 2. // --- SEE MORE LOGIC (Show All Remaining Images) ---
 
   $loadMoreBtn.on("click", function (e) {
-    // 1. Check if the button has already transformed into a link
-    if ($(this).hasClass("redirect-mode")) {
-      window.open(behanceLink, "_blank");
-      return; // Stop the function here
-    }
-
-    // 2. Normal "Load More" Behavior
     var hiddenItems = $(".masonry-item:not(.hide):hidden");
-    var itemsToReveal = hiddenItems.slice(0, itemsToAdd);
-
-    itemsToReveal.fadeIn();
-
-    // 3. Check current count to see if we should switch modes
-    var visibleCount = $(".masonry-item:not(.hide):visible").length;
-    var remainingHidden = $(".masonry-item:not(.hide):hidden").length;
-
-    // Condition A: We hit your specific limit (e.g., 16)
-    // Condition B: We ran out of images to show
-    if (visibleCount >= maxItemsOnHome || remainingHidden === 0) {
-      // Change the Button Text
-      $(this).find("span").text("View Full Archive");
-      $(this)
-        .find("i")
-        .removeClass("fa-plus")
-        .addClass("fa-arrow-up-right-from-square");
-
-      // Add a class so next time we know to redirect
-      $(this).addClass("redirect-mode");
-
-      // Optional: If you ran out of items but haven't hit the limit,
-      // you might want to hide the button.
-      // But if you want to push traffic to Behance, keep it visible!
-      if (remainingHidden === 0 && visibleCount < maxItemsOnHome) {
-        // Decide: Fade out? or Keep as Behance link?
-        // Let's keep it as a Behance link for social proof.
-      }
-    }
+    hiddenItems.fadeIn();
+    $loadMoreBtn.fadeOut();
   });
 
   // 3. Filter Buttons Click Event

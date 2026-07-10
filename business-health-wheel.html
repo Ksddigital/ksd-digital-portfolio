@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business Health Wheel — KSD Digital</title>
+<title>Solar Growth Wheel — KSD Digital</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -292,9 +292,9 @@
  
 <div class="header">
   <img src="Assets/ksd.png" alt="KSD Digital Logo" style="height: 40px; filter: brightness(0) invert(1); margin-bottom: 24px;">
-  <div class="eyebrow">Rate your business honestly</div>
-  <h1>Business<br><span>Health Wheel</span></h1>
-  <p class="sub">Score each area 1–10. No judgement. Just clarity.</p>
+  <div class="eyebrow">Rate your client acquisition system</div>
+  <h1>Solar<br><span>Growth Wheel</span></h1>
+  <p class="sub">Score your solar brand's system. Pinpoint your leaks in 60 seconds.</p>
 </div>
  
 <div class="wheel-container">
@@ -316,7 +316,7 @@
  
 <div class="cta-block">
   <p>Want to improve your scores? Let's talk.</p>
-  <a class="cta-btn" href="https://wa.me/2347063172724?text=I%20want%20to%20GROW" target="_blank">DM "GROW" to start</a>
+  <a class="cta-btn" id="whatsapp-cta" href="https://wa.me/2347063172724?text=I%20want%20to%20GROW" target="_blank">DM "GROW" to start</a>
 </div>
  
 <div class="brand">
@@ -326,14 +326,12 @@
  
 <script>
 const categories = [
-  { name: "Cashflow",       color: "#42867b" },
-  { name: "Marketing",      color: "#5ab3a5" },
-  { name: "Sales",          color: "#3d7a70" },
-  { name: "Customer Experience",  color: "#6ec4b8" },
-  { name: "Product Quality",color: "#2e6b62" },
-  { name: "Brand Visibility",color:"#7dd4ca" },
-  { name: "Operations",     color: "#4a9e94" },
-  { name: "Strategy",       color: "#35857b" },
+  { name: "Lead Volume",       desc: "How consistently do you generate fresh inquiries each day to keep your team busy?", color: "#42867b" },
+  { name: "Lead Quality",      desc: "Are your leads qualified duplex owners/businesses, or are they just window-shopping renters?", color: "#5ab3a5" },
+  { name: "Ad Attribution",    desc: "Do you know exactly which ad creative or hook brought in your closed installations?", color: "#3d7a70" },
+  { name: "Follow-Up Speed",   desc: "How fast does your sales team reply to new inquiries on WhatsApp?", color: "#6ec4b8" },
+  { name: "Brand Trust",       desc: "Does your online presence address the high skepticism surrounding bad solar installs?", color: "#2e6b62" },
+  { name: "Referral Systems",  desc: "Do you have a structured post-installation system to turn client yards into referral engines?", color: "#7dd4ca" },
 ];
  
 const scores = new Array(categories.length).fill(5);
@@ -445,21 +443,23 @@ function updateResult() {
  
   let v, d, color;
   if (avg >= 8) {
-    v = "Thriving Business";
-    d = "You're operating at a high level. The goal now is to protect what's working and scale it intentionally.";
+    v = "High-Performance Engine";
+    d = "Your system is operating at a high level with clean targeting, quick follow-up, and strong trust indicators. The goal now is to protect what is working, avoid ad fatigue, and scale your campaigns safely without resetting the algorithm.";
     color = "#5ab3a5";
-  } else if (avg >= 6) {
-    v = "Good Business";
-    d = "Solid foundation. A few gaps are holding back your full potential. Identify your lowest scores — that's where your next breakthrough is.";
+    document.getElementById('whatsapp-cta').href = "https://wa.me/2347063172724?text=Hey%20Kosy%2C%20my%20Solar%20Growth%20Wheel%20is%20doing%20great.%20Help%20me%20scale%20it.";
+    document.getElementById('whatsapp-cta').textContent = 'DM "SCALE" TO PARTNER';
+  } else if (avg >= 5) {
+    v = "Unstable Pipeline";
+    d = "You have a solid foundation, but key bottlenecks are holding back your full potential. You might get decent leads but struggle with follow-up speed, or have high-quality installs but lack a structured referral system. Focus on your lowest-scoring area first.";
     color = "#42867b";
-  } else if (avg >= 4) {
-    v = "Struggling Business";
-    d = "You're working hard but the system has leaks. Revenue, visibility, or follow-through needs urgent attention before scaling.";
-    color = "#e8a838";
+    document.getElementById('whatsapp-cta').href = "https://wa.me/2347063172724?text=Hey%20Kosy%2C%20my%20Solar%20Growth%20Wheel%20is%20unstable.%20Help%20me%20audit%20it.";
+    document.getElementById('whatsapp-cta').textContent = 'DM "AUDIT" TO EVALUATE';
   } else {
-    v = "Crisis Mode";
-    d = "The business needs structural work before marketing can help. Let's start from the foundation.";
-    color = "#c0392b";
+    v = "Leaking Budget";
+    d = "Your solar client acquisition engine has major holes. You are likely spending heavily on ads but chasing unserious inquiries, or letting hot leads go cold due to slow response times. The system needs urgent structural work before scaling.";
+    color = "#e8a838";
+    document.getElementById('whatsapp-cta').href = "https://wa.me/2347063172724?text=Hey%20Kosy%2C%20my%20Solar%20Growth%20Wheel%20is%20leaking.%20Help%20me%20fix%20it.";
+    document.getElementById('whatsapp-cta').textContent = 'DM "FIX" TO SEAL LEAKS';
   }
  
   verdict.textContent = v;
@@ -479,6 +479,7 @@ categories.forEach((cat, i) => {
       <span class="slider-val" id="val-${i}">5</span>
     </div>
     <input type="range" min="1" max="10" value="5" id="range-${i}">
+    <p style="font-size: 11px; color: var(--mid); margin-top: 4px; line-height: 1.4;">${cat.desc}</p>
   `;
   slidersEl.appendChild(item);
  
